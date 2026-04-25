@@ -1,0 +1,177 @@
+.stats-display {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text);
+  margin: 0;
+}
+
+/* ── Level cards ── */
+.levels-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.level-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.7rem 0.875rem;
+  border-left: 4px solid transparent;
+}
+.level-card.level-l1 { border-left-color: var(--l1-color); }
+.level-card.level-l2 { border-left-color: var(--l2-color); }
+.level-card.level-l3 { border-left-color: var(--l3-color); }
+
+.level-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 0.5rem;
+}
+
+.level-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.18rem 0.45rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+.badge-l1 { background: var(--l1-bg); color: var(--l1-color); }
+.badge-l2 { background: var(--l2-bg); color: var(--l2-color); }
+.badge-l3 { background: var(--l3-bg); color: var(--l3-color); }
+
+/* Hit bar */
+.hit-bar-container {
+  flex: 1;
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  overflow: visible;
+}
+
+.hit-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.4s ease;
+  max-width: 100%;
+}
+.fill-l1 { background: var(--l1-color); }
+.fill-l2 { background: var(--l2-color); }
+.fill-l3 { background: var(--l3-color); }
+
+.hit-bar-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-left: 0.4rem;
+  white-space: nowrap;
+}
+
+/* Stats table */
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.79rem;
+}
+.stats-table td { padding: 0.18rem 0.35rem; color: var(--muted); }
+.stats-table td:nth-child(even) {
+  font-weight: 700;
+  color: var(--text);
+  text-align: right;
+  padding-right: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+.val-hit  { color: var(--l1-color) !important; }
+.val-miss { color: var(--mem-color) !important; }
+
+/* ── Overall card ── */
+.overall-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.875rem 1rem;
+}
+
+.overall-card h3 {
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  margin: 0 0 0.65rem;
+}
+
+.overall-row {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.overall-stat { display: flex; flex-direction: column; gap: 0.12rem; }
+
+.stat-value {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.stat-label { font-size: 0.7rem; color: var(--muted); font-weight: 600; }
+
+.val-amat { color: var(--accent); }
+
+/* Latency chips */
+.latency-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.latency-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.74rem;
+  font-weight: 600;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 0.2rem 0.5rem;
+  color: var(--muted);
+}
+
+.latency-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot-l1  { background: var(--l1-color);  }
+.dot-l2  { background: var(--l2-color);  }
+.dot-l3  { background: var(--l3-color);  }
+.dot-mem { background: var(--mem-color); }
+
+.amat-formula {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  line-height: 1.5;
+  word-break: break-word;
+}

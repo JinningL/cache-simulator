@@ -20,27 +20,38 @@ void print_level_stats(const char *level_name, const Stats *s) {
 
 void print_overall_stats(uint64_t total_accesses,
                          uint64_t memory_accesses,
-                         double miss_rate_L1,
-                         double miss_rate_L2,
-                         double miss_rate_L3) {
+                         const char **names,
+                         const int  *latencies,
+                         const double *miss_rates,
+                         int num_levels,
+                         int mem_latency) {
     /*
-     * Approximate AMAT using the hierarchical miss-penalty formula:
-     *   AMAT = L1_lat
-     *        + miss_L1 * (L2_lat
-     *        + miss_L2 * (L3_lat
-     *        + miss_L3 * mem_lat))
+     * Dynamic AMAT: start from main memory and work backward:
+     *   amat = mem_latency
+     *   for i = last..first:
+     *     amat = latency[i] + miss_rate[i] * amat
      */
-    double amat = LATENCY_L1
-                + miss_rate_L1 * (LATENCY_L2
-                + miss_rate_L2 * (LATENCY_L3
-                + miss_rate_L3 * LATENCY_MEM));
+    double amat = (double)mem_latency;
+    for (int i = num_levels - 1; i >= 0; i--)
+        amat = (double)latencies[i] + miss_rates[i] * amat;
 
     printf("=== Overall ===\n");
     printf("  Total Accesses:  %8llu\n", (unsigned long long)total_accesses);
     printf("  Memory Accesses: %8llu\n", (unsigned long long)memory_accesses);
     printf("  AMAT (approx):   %.2f cycles\n", amat);
     printf("\n");
-    printf("  Latencies used: L1=%d, L2=%d, L3=%d, Mem=%d cycles\n",
-           LATENCY_L1, LATENCY_L2, LATENCY_L3, LATENCY_MEM);
-    printf("  Formula: L1 + mr_L1*(L2 + mr_L2*(L3 + mr_L3*Mem))\n");
+
+    /* Latency table */
+    printf("  Latencies:");
+    for (int i = 0; i < num_levels; i++)
+        printf("  %s=%d", names[i], latencies[i]);
+    printf("  Mem=%d cycles\n", mem_latency);
+
+    /* Formula string, e.g. "L1(1) + mr_L1*(L3(40) + mr_L3*Mem(100))" */
+    printf("  AMAT formula:  ");
+    for (int i = 0; i < num_levels; i++)
+        printf("%s(%d) + mr_%s*(", names[i], latencies[i], names[i]);
+    printf("Mem(%d)", mem_latency);
+    for (int i = 0; i < num_levels; i++) printf(")");
+    printf("\n");
 }

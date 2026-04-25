@@ -7,19 +7,15 @@
 #include "stats.h"
 
 int main(int argc, char *argv[]) {
-    /* ── 1. Parse CLI arguments ── */
     SimConfig cfg;
     parse_args(argc, argv, &cfg);
     print_config(&cfg);
 
-    /* ── 2. Build the cache hierarchy ── */
     CacheHierarchy *hier = hierarchy_init(&cfg);
 
-    /* ── 3. Open the trace file ── */
     TraceReader *reader = trace_open(cfg.trace_file);
     if (!reader) return EXIT_FAILURE;
 
-    /* ── 4. Simulate each trace entry ── */
     printf("=== Access Log ===\n");
     TraceEntry entry;
     uint64_t total_accesses = 0;
@@ -39,27 +35,27 @@ int main(int argc, char *argv[]) {
 
     trace_close(reader);
 
-    /* ── 5. Print statistics ── */
     printf("\n");
-    print_level_stats("L1", &hier->L1->stats);
-    print_level_stats("L2", &hier->L2->stats);
-    print_level_stats("L3", &hier->L3->stats);
 
-    /* Compute per-level miss rates for AMAT */
-    double mr_L1 = hier->L1->stats.accesses
-                   ? (double)hier->L1->stats.misses / hier->L1->stats.accesses
-                   : 0.0;
-    double mr_L2 = hier->L2->stats.accesses
-                   ? (double)hier->L2->stats.misses / hier->L2->stats.accesses
-                   : 0.0;
-    double mr_L3 = hier->L3->stats.accesses
-                   ? (double)hier->L3->stats.misses / hier->L3->stats.accesses
-                   : 0.0;
+    /* Print per-level stats and build arrays for AMAT */
+    const char *names[3];
+    int    latencies[3];
+    double miss_rates[3];
+
+    for (int i = 0; i < hier->num_levels; i++) {
+        CacheLevel *lvl = hier->levels[i];
+        print_level_stats(lvl->name, &lvl->stats);
+        names[i]      = lvl->name;
+        latencies[i]  = lvl->latency;
+        miss_rates[i] = lvl->stats.accesses
+                        ? (double)lvl->stats.misses / lvl->stats.accesses
+                        : 0.0;
+    }
 
     print_overall_stats(total_accesses, hier->memory_accesses,
-                        mr_L1, mr_L2, mr_L3);
+                        names, latencies, miss_rates,
+                        hier->num_levels, hier->mem_latency);
 
-    /* ── 6. Clean up ── */
     hierarchy_free(hier);
     return EXIT_SUCCESS;
 }

@@ -52,6 +52,7 @@ typedef struct {
     int   num_sets;
     int   offset_bits;
     int   index_bits;
+    int   latency;       /* access latency in cycles, used for AMAT */
     CacheSet *sets;      /* array of num_sets sets */
     Stats stats;
 } CacheLevel;
@@ -63,7 +64,7 @@ typedef struct {
  * Returns a pointer to the new level (caller must call cache_free later).
  */
 CacheLevel *cache_level_init(const char *name, int cache_size,
-                             int block_size, int associativity);
+                             int block_size, int associativity, int latency);
 
 /*
  * Look up `address` in `level`.

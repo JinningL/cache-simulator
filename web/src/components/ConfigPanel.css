@@ -1,0 +1,213 @@
+.config-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.config-panel h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 0.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── Level section card ── */
+.level-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: opacity 0.15s;
+}
+
+.level-disabled {
+  opacity: 0.55;
+}
+
+.level-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.875rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.level-body {
+  padding: 0.7rem 0.875rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.level-label {
+  font-size: 0.78rem;
+  font-weight: 800;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.level-label.l1     { color: var(--l1-color); }
+.level-label.l2     { color: var(--l2-color); }
+.level-label.l3     { color: var(--l3-color); }
+.level-label.shared { color: var(--muted); }
+
+/* ── Enable toggle ── */
+.enable-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.enable-toggle input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-track {
+  width: 32px;
+  height: 18px;
+  background: var(--border);
+  border-radius: 9px;
+  position: relative;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.enable-toggle input:checked + .toggle-track {
+  background: var(--accent);
+}
+
+.toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.enable-toggle input:checked + .toggle-track .toggle-thumb {
+  transform: translateX(14px);
+}
+
+.toggle-text {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+  min-width: 50px;
+}
+
+/* ── Form fields ── */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.field-row {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.field label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  padding: 0.4rem 0.55rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.85rem;
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.size-input {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.size-input input  { flex: 1; }
+.size-input select { width: 76px; flex-shrink: 0; }
+
+.latency-input {
+  width: 80px !important;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+/* ── Policy toggle ── */
+.policy-toggle {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  width: fit-content;
+}
+
+.policy-btn {
+  padding: 0.38rem 1rem;
+  border: none;
+  background: var(--bg);
+  color: var(--muted);
+  font-size: 0.83rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.policy-btn:first-child { border-right: 1px solid var(--border); }
+
+.policy-btn.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ── Tooltip ── */
+.tooltip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--border);
+  color: var(--muted);
+  font-size: 0.62rem;
+  font-weight: 800;
+  cursor: help;
+  flex-shrink: 0;
+}
+
+/* Shared section uses same .level-body layout */
+.level-section:last-child .level-body {
+  padding: 0.7rem 0.875rem;
+}

@@ -1,6 +1,6 @@
 # cache-simulator
 
-A modular, configurable multi-level cache simulator written in C.
+A modular, configurable multi-level cache simulator — C backend with an optional React web UI.
 
 ## Features
 
@@ -9,6 +9,68 @@ A modular, configurable multi-level cache simulator written in C.
 - Write-back + write-allocate policy with dirty bits
 - LRU and FIFO replacement policies
 - Per-level statistics and approximate AMAT
+- **Web UI** — beginner-friendly configuration form, live access timeline, and stats visualisation
+
+---
+
+## Web UI (React + Vite)
+
+The `web/` directory contains a React + Vite frontend with a tiny Express backend that executes the C binary.
+
+### Quick start
+
+```bash
+# 1. Build the C simulator (project root)
+make
+
+# 2. Install web dependencies
+cd web
+npm install
+
+# 3. Start both servers (Vite dev server + Express API)
+npm run dev
+```
+
+Then open **http://localhost:5173** in your browser.
+
+### What the UI does
+
+| Panel | Content |
+|-------|---------|
+| Left — Configuration | L1/L2/L3 size (KB/MB), associativity, block size, LRU/FIFO policy |
+| Left — Memory Trace | Paste trace text or upload a `.txt` file |
+| Right — Results | Generated CLI command, per-level statistics, hit-rate bars, access timeline |
+
+### How sizes and associativity map to the CLI
+
+| UI selection | Bytes sent | Flag |
+|---|---|---|
+| 32 KB | 32768 | `--l1-size 32768` |
+| 256 KB | 262144 | `--l2-size 262144` |
+| 8 MB | 8388608 | `--l3-size 8388608` |
+| Direct-mapped | 1 | `--l1-assoc 1` |
+| 4-way | 4 | `--l1-assoc 4` |
+| Fully Associative | cache_size / block_size | `--l1-assoc <num_lines>` |
+
+### web/ structure
+
+```
+web/
+├── server.js          Express API server (runs the C binary, port 3001)
+├── vite.config.js     Vite dev server with /api proxy to :3001
+├── src/
+│   ├── App.jsx / App.css
+│   ├── components/
+│   │   ├── ConfigPanel.jsx   Cache configuration form
+│   │   ├── TraceInput.jsx    Trace paste / upload
+│   │   ├── StatsDisplay.jsx  Per-level statistics + AMAT
+│   │   └── AccessTimeline.jsx  Colour-coded access log
+│   └── utils/
+│       ├── commandBuilder.js  Form → CLI args conversion
+│       ├── validation.js      Input validation rules
+│       └── outputParser.js    C simulator text → structured data
+└── package.json
+```
 
 ---
 

@@ -5,7 +5,7 @@
 #include "policy.h"
 
 CacheLevel *cache_level_init(const char *name, int cache_size,
-                             int block_size, int associativity) {
+                             int block_size, int associativity, int latency) {
     CacheLevel *lvl = malloc(sizeof(CacheLevel));
     if (!lvl) { perror("malloc"); exit(EXIT_FAILURE); }
 
@@ -18,6 +18,7 @@ CacheLevel *cache_level_init(const char *name, int cache_size,
     lvl->num_sets     = lvl->num_lines / associativity;
     lvl->offset_bits  = log2_int(block_size);
     lvl->index_bits   = log2_int(lvl->num_sets);
+    lvl->latency      = latency;
 
     /* Allocate sets */
     lvl->sets = malloc(sizeof(CacheSet) * lvl->num_sets);

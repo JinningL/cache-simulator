@@ -1,0 +1,4 @@
+*.o
+cache_sim
+web/node_modules/
+web/dist/

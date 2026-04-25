@@ -1,0 +1,117 @@
+.access-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text);
+  margin: 0;
+}
+
+.timeline-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.summary-badges {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.timeline-scroll {
+  overflow-y: auto;
+  max-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.timeline-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+}
+
+.timeline-table thead {
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 1;
+}
+
+.timeline-table th {
+  padding: 0.45rem 0.65rem;
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.timeline-table td {
+  padding: 0.3rem 0.65rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.timeline-table tr:last-child td {
+  border-bottom: none;
+}
+
+.access-row:nth-child(even) {
+  background: rgba(0,0,0,0.015);
+}
+
+.col-idx {
+  color: var(--muted);
+  font-size: 0.72rem;
+  width: 36px;
+}
+
+.col-op {
+  font-weight: 800;
+  width: 28px;
+}
+.op-R { color: var(--accent); }
+.op-W { color: var(--l3-color); }
+
+.col-addr {
+  color: var(--text);
+  letter-spacing: 0.02em;
+}
+
+.col-badge { width: 80px; }
+
+.col-detail {
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+/* ── Badge styles (shared across components) ── */
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.badge-l1  { background: var(--l1-bg);  color: var(--l1-color);  }
+.badge-l2  { background: var(--l2-bg);  color: var(--l2-color);  }
+.badge-l3  { background: var(--l3-bg);  color: var(--l3-color);  }
+.badge-mem { background: var(--mem-bg); color: var(--mem-color); }
+.badge-total { background: var(--border); color: var(--muted); }
