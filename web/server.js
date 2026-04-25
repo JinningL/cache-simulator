@@ -9,6 +9,8 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const BINARY = join(__dirname, '..', 'cache_sim');
+const DIST_DIR = join(__dirname, 'dist');
+const PORT = process.env.PORT || 3001;
 
 const app = express();
 app.use(cors());
@@ -80,4 +82,10 @@ function buildDisplayCmd(c) {
   return lines.join('\n');
 }
 
-app.listen(3001, () => console.log('Cache simulator API on http://localhost:3001'));
+app.use(express.static(DIST_DIR));
+
+app.get(/.*/, (_req, res) => {
+  res.sendFile(join(DIST_DIR, 'index.html'));
+});
+
+app.listen(PORT, () => console.log(`Cache simulator server on port ${PORT}`));
